@@ -82,6 +82,15 @@ The built files will be in the `dist` directory.
 npm run preview
 ```
 
+## Deployment
+
+The application can be deployed in two ways:
+
+1. **Frontend only** (Netlify) - Works with localStorage only
+2. **Full stack** (Netlify + Railway/Render) - With database sync
+
+See **[DEPLOYMENT.md](DEPLOYMENT.md)** for detailed deployment instructions.
+
 ## Usage
 
 ### Database Sync (Optional)
