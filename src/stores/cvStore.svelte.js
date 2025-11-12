@@ -19,7 +19,8 @@ export function createEmptyCV() {
     education: [],
     skills: [],
     languages: [],
-    certifications: []
+    certifications: [],
+    consentStatement: 'I consent to the processing of my personal data for recruitment purposes in accordance with GDPR (General Data Protection Regulation).'
   };
 }
 

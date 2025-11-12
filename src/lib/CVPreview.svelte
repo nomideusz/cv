@@ -141,6 +141,13 @@
         {/each}
       </section>
     {/if}
+
+    <!-- Consent Statement -->
+    {#if cv.consentStatement && cv.consentStatement.trim()}
+      <div class="consent-statement">
+        {cv.consentStatement}
+      </div>
+    {/if}
   </div>
 </div>
 
@@ -347,6 +354,18 @@
     color: #0066cc;
   }
 
+  /* Consent Statement */
+  .consent-statement {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.5;
+    font-style: italic;
+    text-align: justify;
+  }
+
   /* Print styles - Compact professional layout */
   @media print {
     @page {
@@ -498,6 +517,16 @@
 
     .cert-meta span:not(:last-child)::after {
       margin: 0 0.3rem;
+    }
+
+    /* Compact consent statement */
+    .consent-statement {
+      margin-top: 1rem;
+      padding-top: 0.8rem;
+      border-top-width: 0.5px;
+      font-size: 0.7rem;
+      line-height: 1.3;
+      text-align: left;
     }
 
     /* Avoid orphans and widows */

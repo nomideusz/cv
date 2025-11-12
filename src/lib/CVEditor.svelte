@@ -297,6 +297,19 @@
     {/each}
     <button class="btn-add" onclick={() => cvStore.addCertification()}>+ Add Certification</button>
   </section>
+
+  <section class="section">
+    <h3>Consent Statement (GDPR)</h3>
+    <p class="section-hint">
+      Optional statement for data processing consent, typically required for CVs in Europe.
+    </p>
+    <textarea
+      placeholder="E.g., I consent to the processing of my personal data for recruitment purposes..."
+      value={cvStore.currentCV.consentStatement || ''}
+      oninput={(e) => cvStore.updateCV({ consentStatement: e.target.value })}
+      rows="3"
+    ></textarea>
+  </section>
 </div>
 
 <style>
@@ -323,6 +336,13 @@
     margin-bottom: 1rem;
     color: #555;
     font-size: 1.2rem;
+  }
+
+  .section-hint {
+    margin: 0 0 1rem 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
 
   .form-grid {
