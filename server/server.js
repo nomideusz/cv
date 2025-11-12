@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import { randomUUID } from 'crypto';
 import { initDatabase, userOps, cvOps } from './database.js';
 
 const app = express();
@@ -43,7 +44,7 @@ app.post('/api/auth/login', (req, res) => {
 
     if (!user) {
       // Create new user
-      const userId = crypto.randomUUID();
+      const userId = randomUUID();
       userOps.create(userId, username);
       user = userOps.findById(userId);
     }
