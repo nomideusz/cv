@@ -333,26 +333,127 @@
 
   /* Print styles */
   @media print {
+    @page {
+      size: A4;
+      margin: 15mm;
+    }
+
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
     .cv-preview {
       padding: 0;
       background: white;
+      margin: 0;
     }
 
     .cv-page {
       box-shadow: none;
       margin: 0;
-      padding: 15mm;
+      padding: 0;
       max-width: 100%;
+      min-height: 0;
+      width: 100%;
+      page-break-after: auto;
     }
 
+    /* Optimize header for printing */
+    .cv-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+    }
+
+    .cv-header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .title {
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .contact-info {
+      font-size: 0.85rem;
+      gap: 0.3rem 0.8rem;
+    }
+
+    /* Optimize sections for printing */
     .cv-section {
       page-break-inside: avoid;
+      margin-bottom: 1.2rem;
     }
 
+    .cv-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.3rem;
+    }
+
+    .summary {
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+
+    /* Optimize experience items */
     .experience-item,
     .education-item,
     .certification-item {
       page-break-inside: avoid;
+      margin-bottom: 1rem;
+    }
+
+    .experience-item h3,
+    .education-item h3 {
+      font-size: 1rem;
+    }
+
+    .company,
+    .institution {
+      font-size: 0.95rem;
+    }
+
+    .experience-meta,
+    .education-meta {
+      font-size: 0.85rem;
+    }
+
+    .description {
+      line-height: 1.5;
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Optimize skills and languages */
+    .skills-list,
+    .languages-list {
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    /* Optimize certifications */
+    .certification-item h3 {
+      font-size: 0.95rem;
+    }
+
+    .cert-meta {
+      font-size: 0.85rem;
+    }
+
+    /* Avoid orphans and widows */
+    p {
+      orphans: 3;
+      widows: 3;
+    }
+
+    h2,
+    h3 {
+      orphans: 4;
+      widows: 4;
+      page-break-after: avoid;
     }
   }
 </style>
