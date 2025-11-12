@@ -1,0 +1,78 @@
+{
+  "versionName": "Professional CV",
+  "name": "BARTOSZ DYMET",
+  "title": "Data Analyst & Web Developer",
+  "contact": {
+    "email": "b.dymet@gmail.com",
+    "phone": "+48 602 846 912",
+    "location": "27E/4 Korzeniowskiego St., 30-214 Krakow, Poland",
+    "linkedin": "",
+    "website": "github.com/nomideusz"
+  },
+  "summary": "Experienced specialist with over 15 years in data analysis, web development, and surveying, including 2.5 years of hands-on experience with Picarro technology and software solutions. Deep understanding of Picarro's technology, company strategy, and growth potential in the Polish market. Combines technical expertise with strong communication skills to help clients successfully adopt new technologies and support company goals.",
+  "experience": [
+    {
+      "company": "INTERTECH POLAND / PICARRO",
+      "position": "Mobile measuring station operator / Data Analyst",
+      "location": "Krakow, PL",
+      "startDate": "February 2022",
+      "endDate": "Present",
+      "current": true,
+      "description": "• Picarro Operations: Operate Picarro vehicle and equipment for gas measurements, ensuring optimal data collection and quality.\n• Collaboration with PSG: Work closely with the Polish Gas Company (PSG) to facilitate successful adoption of Picarro technology, providing training support and operational guidance.\n• Software Proficiency: Master the Picarro software suite and analytical tools, contributing to efficient data processing and analysis.\n• Strategic Understanding: Develop a strong understanding of Picarro's company strategy and market positioning to align efforts with organizational goals."
+    },
+    {
+      "company": "Freelance",
+      "position": "Web Developer",
+      "location": "",
+      "startDate": "2007",
+      "endDate": "Present",
+      "current": true,
+      "description": "• Web Application Development: Design and develop modern web applications using SvelteKit, Svelte, and TypeScript.\n• Custom Solutions: Create complete websites, including custom content management systems tailored to client needs.\n• Performance Optimization: Optimize web applications for speed and performance using best practices and tools like TanStack Query.\n• Client Collaboration: Work closely with clients to understand requirements and deliver tailored solutions that meet their objectives."
+    },
+    {
+      "company": "TESLA EXPLORATION / IMC GEOPHYSICAL SERVICES / TERREX SEISMIC",
+      "position": "Surveyor",
+      "location": "",
+      "startDate": "July 2007",
+      "endDate": "October 2019",
+      "current": false,
+      "description": "• Team Leadership: Led international surveyor teams in complex seismic projects across multiple countries.\n• Equipment Management: Managed and maintained advanced surveying equipment, ensuring accuracy and reliability.\n• Data Processing: Processed and analyzed survey data"
+    }
+  ],
+  "education": [
+    {
+      "institution": "AGH University of Science and Technology",
+      "degree": "Bachelor's Degree",
+      "field": "Surveying Technology",
+      "location": "Krakow, PL",
+      "startDate": "2002",
+      "endDate": "2006",
+      "gpa": "",
+      "description": ""
+    }
+  ],
+  "skills": [
+    "Picarro Technology",
+    "Data Analysis",
+    "SvelteKit",
+    "Svelte",
+    "TypeScript",
+    "HTML5",
+    "CSS3",
+    "SQL",
+    "Database Management",
+    "Linux",
+    "VPS setup",
+    "Docker",
+    "Git",
+    "Python",
+    "GIS Systems",
+    "Advanced Surveying",
+    "Team Leadership"
+  ],
+  "languages": [
+    "Polish (Native)",
+    "English (Fluent)"
+  ],
+  "certifications": []
+}
