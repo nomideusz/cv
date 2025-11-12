@@ -81,6 +81,29 @@ Railway offers a free tier and is very easy to use.
 
 ## Alternative Backend Hosts
 
+### CapRover (Self-Hosted VPS) ⭐ Recommended for VPS Users
+
+If you have a VPS with CapRover installed, see the detailed guide:
+
+**👉 [CAPROVER-DEPLOYMENT.md](CAPROVER-DEPLOYMENT.md)**
+
+**Quick steps:**
+1. Install CapRover CLI: `npm install -g caprover`
+2. Login: `caprover login`
+3. Create app: `caprover apps create cv-maker-api`
+4. Set environment variables in dashboard:
+   - `ALLOWED_ORIGINS`: Your Netlify URL
+   - `PORT`: `80`
+5. Deploy: `caprover deploy`
+
+**Benefits:**
+- Self-hosted on your own VPS
+- No monthly fees
+- Full control
+- SQLite persistence with CapRover volumes
+
+---
+
 ### Render.com
 
 1. Create account at [render.com](https://render.com)

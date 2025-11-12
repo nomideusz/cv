@@ -1,0 +1,43 @@
+# Dependencies
+node_modules
+
+# Build files
+dist
+dist-ssr
+
+# Development files
+.git
+.gitignore
+.env
+.env.local
+.env.example
+
+# Documentation
+README.md
+DEPLOYMENT.md
+CAPROVER-DEPLOYMENT.md
+
+# Frontend source (not needed for backend)
+src
+public
+index.html
+vite.config.js
+svelte.config.js
+
+# Database (will be created in container)
+server/cv-database.db
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db

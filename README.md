@@ -87,9 +87,13 @@ npm run preview
 The application can be deployed in two ways:
 
 1. **Frontend only** (Netlify) - Works with localStorage only
-2. **Full stack** (Netlify + Railway/Render) - With database sync
+2. **Full stack** - Frontend (Netlify) + Backend with database sync:
+   - **Railway/Render** - Free cloud hosting
+   - **CapRover** - Self-hosted on your VPS
 
-See **[DEPLOYMENT.md](DEPLOYMENT.md)** for detailed deployment instructions.
+### Deployment Guides:
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Railway, Render, Fly.io
+- **[CAPROVER-DEPLOYMENT.md](CAPROVER-DEPLOYMENT.md)** - CapRover VPS deployment
 
 ## Usage
 
