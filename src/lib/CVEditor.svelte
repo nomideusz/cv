@@ -315,7 +315,8 @@
 <style>
   .editor {
     padding: 2rem;
-    max-width: 800px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .section {
@@ -323,6 +324,17 @@
     padding: 1.5rem;
     background: #f8f9fa;
     border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  @media (max-width: 768px) {
+    .editor {
+      padding: 1rem;
+    }
+
+    .section {
+      padding: 1rem;
+    }
   }
 
   h2 {

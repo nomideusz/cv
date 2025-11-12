@@ -7,6 +7,19 @@
   let copyVersionId = $state(null);
   let copyVersionName = $state('');
 
+  function handleQuickSave() {
+    if (cvStore.activeVersionId) {
+      // Update existing version
+      const activeVersion = cvStore.savedVersions.find(v => v.id === cvStore.activeVersionId);
+      if (activeVersion) {
+        cvStore.saveVersion(activeVersion.versionName);
+      }
+    } else {
+      // New CV - ask for version name
+      showSaveDialog = true;
+    }
+  }
+
   function handleSaveVersion() {
     if (versionName.trim()) {
       cvStore.saveVersion(versionName.trim());
@@ -60,13 +73,29 @@
 <div class="version-manager">
   <div class="actions">
     <button class="btn-new" onclick={handleNewCV}>New CV</button>
-    <button class="btn-save" onclick={() => showSaveDialog = true}>Save Version</button>
+    <button class="btn-save" onclick={handleQuickSave}>
+      {#if cvStore.activeVersionId}
+        Save Changes
+      {:else}
+        Save Version
+      {/if}
+    </button>
+    {#if cvStore.activeVersionId}
+      <button class="btn-save-as" onclick={() => showSaveDialog = true}>
+        Save As New
+      </button>
+    {/if}
   </div>
 
   {#if showSaveDialog}
     <div class="dialog-overlay" onclick={() => showSaveDialog = false}>
       <div class="dialog" onclick={(e) => e.stopPropagation()}>
-        <h3>Save CV Version</h3>
+        <h3>{cvStore.activeVersionId ? 'Save As New Version' : 'Save CV Version'}</h3>
+        <p class="dialog-hint">
+          {cvStore.activeVersionId
+            ? 'Create a new version with a different name (e.g., for a different job application)'
+            : 'Enter a name for your CV version (e.g., Software Engineer - Tech Corp)'}
+        </p>
         <input
           type="text"
           placeholder="Version name (e.g., Software Engineer - Tech Corp)"
@@ -140,23 +169,25 @@
 <style>
   .version-manager {
     padding: 2rem;
-    background: #f8f9fa;
-    border-radius: 8px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .actions {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     margin-bottom: 2rem;
+    flex-wrap: wrap;
   }
 
-  .btn-new, .btn-save {
+  .btn-new, .btn-save, .btn-save-as {
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
     font-weight: 500;
+    transition: background 0.2s;
   }
 
   .btn-new {
@@ -175,6 +206,15 @@
 
   .btn-save:hover {
     background: #45a049;
+  }
+
+  .btn-save-as {
+    background: #9C27B0;
+    color: white;
+  }
+
+  .btn-save-as:hover {
+    background: #7B1FA2;
   }
 
   .dialog-overlay {
@@ -258,6 +298,12 @@
     background: #45a049;
   }
 
+  .versions-list {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+
   .versions-list h3 {
     margin: 0 0 1rem 0;
     color: #333;
@@ -265,14 +311,19 @@
 
   .version-item {
     background: white;
-    padding: 1rem;
-    border-radius: 4px;
+    padding: 1.25rem;
+    border-radius: 6px;
     margin-bottom: 0.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border: 2px solid transparent;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  .version-item:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
   }
 
   .version-item.active {
