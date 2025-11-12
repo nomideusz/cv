@@ -1,5 +1,5 @@
 // CV Store using Svelte 5 runes
-import { writable } from 'svelte/store';
+import { apiService } from '../services/api.js';
 
 // Default CV template
 export function createEmptyCV() {
@@ -68,10 +68,113 @@ class CVStore {
   currentCV = $state(createEmptyCV());
   savedVersions = $state([]);
   activeVersionId = $state(null);
+  isLoggedIn = $state(false);
+  username = $state('');
+  syncEnabled = $state(false);
+  isSyncing = $state(false);
+  syncError = $state(null);
 
   constructor() {
     // Load from localStorage on init
     this.loadFromStorage();
+    this.checkLoginStatus();
+  }
+
+  // Check if user is already logged in
+  async checkLoginStatus() {
+    const userId = apiService.getUserId();
+    const savedUsername = localStorage.getItem('cv-username');
+
+    if (userId && savedUsername) {
+      this.username = savedUsername;
+      this.isLoggedIn = true;
+
+      // Check if server is online
+      const isOnline = await apiService.checkHealth();
+      if (isOnline) {
+        this.syncEnabled = true;
+      }
+    }
+  }
+
+  // Login to enable database sync
+  async login(username) {
+    try {
+      this.isSyncing = true;
+      this.syncError = null;
+
+      const user = await apiService.login(username);
+      this.username = username;
+      this.isLoggedIn = true;
+      this.syncEnabled = true;
+
+      localStorage.setItem('cv-username', username);
+
+      // Sync local versions to server
+      await this.syncToServer();
+
+      // Load all CVs from server
+      await this.loadFromServer();
+
+      this.isSyncing = false;
+      return true;
+    } catch (error) {
+      console.error('Login failed:', error);
+      this.syncError = 'Failed to connect to server';
+      this.isSyncing = false;
+      throw error;
+    }
+  }
+
+  // Logout
+  logout() {
+    this.isLoggedIn = false;
+    this.username = '';
+    this.syncEnabled = false;
+    apiService.setUserId(null);
+    localStorage.removeItem('cv-username');
+  }
+
+  // Sync local versions to server
+  async syncToServer() {
+    if (!this.syncEnabled) return;
+
+    try {
+      this.isSyncing = true;
+
+      for (const version of this.savedVersions) {
+        await apiService.saveCV(version);
+      }
+
+      this.syncError = null;
+      this.isSyncing = false;
+    } catch (error) {
+      console.error('Sync to server failed:', error);
+      this.syncError = 'Failed to sync to server';
+      this.isSyncing = false;
+    }
+  }
+
+  // Load all CVs from server
+  async loadFromServer() {
+    if (!this.syncEnabled) return;
+
+    try {
+      this.isSyncing = true;
+
+      const cvs = await apiService.getAllCVs();
+
+      // Merge with local versions (server is source of truth)
+      this.savedVersions = cvs;
+
+      this.saveToStorage();
+      this.syncError = null;
+      this.isSyncing = false;
+    } catch (error) {
+      console.error('Load from server failed:', error);
+      this.syncError = 'Failed to load from server';
+      this.isSyncing = false;
+    }
   }
 
   // Update current CV
@@ -159,7 +262,7 @@ class CVStore {
   }
 
   // Save current CV as a version
-  saveVersion(versionName) {
+  async saveVersion(versionName) {
     const version = {
       ...this.currentCV,
       versionName,
@@ -175,6 +278,16 @@ class CVStore {
 
     this.activeVersionId = version.id;
     this.saveToStorage();
+
+    // Sync to server if enabled
+    if (this.syncEnabled) {
+      try {
+        await apiService.saveCV(version);
+      } catch (error) {
+        console.error('Failed to sync version to server:', error);
+        this.syncError = 'Failed to sync to server';
+      }
+    }
   }
 
   // Load a saved version
@@ -187,12 +300,22 @@ class CVStore {
   }
 
   // Delete a saved version
-  deleteVersion(versionId) {
+  async deleteVersion(versionId) {
     this.savedVersions = this.savedVersions.filter(v => v.id !== versionId);
     if (this.activeVersionId === versionId) {
       this.activeVersionId = null;
     }
     this.saveToStorage();
+
+    // Delete from server if enabled
+    if (this.syncEnabled) {
+      try {
+        await apiService.deleteCV(versionId);
+      } catch (error) {
+        console.error('Failed to delete version from server:', error);
+        this.syncError = 'Failed to delete from server';
+      }
+    }
   }
 
   // Create new CV

@@ -2,6 +2,7 @@
   import CVEditor from './lib/CVEditor.svelte';
   import CVPreview from './lib/CVPreview.svelte';
   import VersionManager from './lib/VersionManager.svelte';
+  import SyncStatus from './lib/SyncStatus.svelte';
 
   let activeTab = $state('edit');
 
@@ -16,29 +17,34 @@
     <button class="btn-print" onclick={handlePrint}>Print CV</button>
   </header>
 
-  <nav class="tabs">
-    <button
-      class="tab"
-      class:active={activeTab === 'edit'}
-      onclick={() => activeTab = 'edit'}
-    >
-      Edit
-    </button>
-    <button
-      class="tab"
-      class:active={activeTab === 'preview'}
-      onclick={() => activeTab = 'preview'}
-    >
-      Preview
-    </button>
-    <button
-      class="tab"
-      class:active={activeTab === 'versions'}
-      onclick={() => activeTab = 'versions'}
-    >
-      Versions
-    </button>
-  </nav>
+  <div class="nav-section">
+    <nav class="tabs">
+      <button
+        class="tab"
+        class:active={activeTab === 'edit'}
+        onclick={() => activeTab = 'edit'}
+      >
+        Edit
+      </button>
+      <button
+        class="tab"
+        class:active={activeTab === 'preview'}
+        onclick={() => activeTab = 'preview'}
+      >
+        Preview
+      </button>
+      <button
+        class="tab"
+        class:active={activeTab === 'versions'}
+        onclick={() => activeTab = 'versions'}
+      >
+        Versions
+      </button>
+    </nav>
+    <div class="sync-section">
+      <SyncStatus />
+    </div>
+  </div>
 
   <div class="content">
     {#if activeTab === 'edit'}
@@ -102,14 +108,21 @@
     background: #F57C00;
   }
 
-  .tabs {
-    display: flex;
+  .nav-section {
     background: white;
     border-bottom: 2px solid #e0e0e0;
-    padding: 0 2rem;
     position: sticky;
     top: 76px;
     z-index: 99;
+  }
+
+  .tabs {
+    display: flex;
+    padding: 0 2rem;
+  }
+
+  .sync-section {
+    padding: 0.5rem 2rem 1rem 2rem;
   }
 
   .tab {
@@ -142,7 +155,7 @@
 
   @media print {
     .app-header,
-    .tabs {
+    .nav-section {
       display: none !important;
     }
 
