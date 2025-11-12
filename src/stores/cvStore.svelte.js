@@ -318,6 +318,41 @@ class CVStore {
     }
   }
 
+  // Copy a saved version
+  async copyVersion(versionId, newVersionName) {
+    const version = this.savedVersions.find(v => v.id === versionId);
+    if (!version) return;
+
+    // Create a copy with new ID and name
+    const copiedVersion = {
+      ...version,
+      id: crypto.randomUUID(),
+      versionName: newVersionName || `Copy of ${version.versionName}`,
+      savedAt: new Date().toISOString()
+    };
+
+    // Add to saved versions
+    this.savedVersions = [...this.savedVersions, copiedVersion];
+
+    // Load the copied version as current CV
+    this.currentCV = { ...copiedVersion };
+    this.activeVersionId = copiedVersion.id;
+
+    this.saveToStorage();
+
+    // Sync to server if enabled
+    if (this.syncEnabled) {
+      try {
+        await apiService.saveCV(copiedVersion);
+      } catch (error) {
+        console.error('Failed to sync copied version to server:', error);
+        this.syncError = 'Failed to sync to server';
+      }
+    }
+
+    return copiedVersion;
+  }
+
   // Create new CV
   createNew() {
     this.currentCV = createEmptyCV();

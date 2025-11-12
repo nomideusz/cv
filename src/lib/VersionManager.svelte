@@ -3,6 +3,9 @@
 
   let versionName = $state('');
   let showSaveDialog = $state(false);
+  let showCopyDialog = $state(false);
+  let copyVersionId = $state(null);
+  let copyVersionName = $state('');
 
   function handleSaveVersion() {
     if (versionName.trim()) {
@@ -19,6 +22,21 @@
   function handleDeleteVersion(versionId) {
     if (confirm('Are you sure you want to delete this version?')) {
       cvStore.deleteVersion(versionId);
+    }
+  }
+
+  function handleCopyVersion(versionId, originalName) {
+    copyVersionId = versionId;
+    copyVersionName = `Copy of ${originalName}`;
+    showCopyDialog = true;
+  }
+
+  function handleConfirmCopy() {
+    if (copyVersionName.trim() && copyVersionId) {
+      cvStore.copyVersion(copyVersionId, copyVersionName.trim());
+      copyVersionName = '';
+      copyVersionId = null;
+      showCopyDialog = false;
     }
   }
 
@@ -64,6 +82,26 @@
     </div>
   {/if}
 
+  {#if showCopyDialog}
+    <div class="dialog-overlay" onclick={() => showCopyDialog = false}>
+      <div class="dialog" onclick={(e) => e.stopPropagation()}>
+        <h3>Copy CV Version</h3>
+        <p class="dialog-hint">Enter a name for the copied CV version:</p>
+        <input
+          type="text"
+          placeholder="Version name"
+          bind:value={copyVersionName}
+          onkeypress={(e) => e.key === 'Enter' && handleConfirmCopy()}
+          autofocus
+        />
+        <div class="dialog-actions">
+          <button onclick={() => showCopyDialog = false}>Cancel</button>
+          <button class="btn-primary" onclick={handleConfirmCopy}>Copy</button>
+        </div>
+      </div>
+    </div>
+  {/if}
+
   {#if cvStore.savedVersions.length > 0}
     <div class="versions-list">
       <h3>Saved Versions</h3>
@@ -82,6 +120,9 @@
                 Load
               </button>
             {/if}
+            <button class="btn-copy" onclick={() => handleCopyVersion(version.id, version.versionName)}>
+              Copy
+            </button>
             <button class="btn-delete" onclick={() => handleDeleteVersion(version.id)}>
               Delete
             </button>
@@ -161,6 +202,13 @@
   .dialog h3 {
     margin: 0 0 1rem 0;
     color: #333;
+  }
+
+  .dialog-hint {
+    margin: 0 0 0.75rem 0;
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.4;
   }
 
   .dialog input {
@@ -258,7 +306,7 @@
     gap: 0.5rem;
   }
 
-  .btn-load, .btn-delete {
+  .btn-load, .btn-copy, .btn-delete {
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 4px;
@@ -273,6 +321,15 @@
 
   .btn-load:hover {
     background: #0b7dda;
+  }
+
+  .btn-copy {
+    background: #FF9800;
+    color: white;
+  }
+
+  .btn-copy:hover {
+    background: #F57C00;
   }
 
   .btn-delete {
